@@ -4,7 +4,7 @@ An AI-powered chatbot that helps users with questions about Huawei certification
 
 ## Features
 
-- 🤖 **AI-Powered Chat**: Uses OpenAI GPT-3.5-turbo for intelligent responses
+- 🤖 **AI-Powered Chat**: Uses groq for intelligent responses
 - 📚 **Knowledge Base**: Leverages Pinecone vector database for semantic search
 - 🎯 **Huawei Focus**: Specialized in Huawei certifications and technologies
 - 💬 **Real-time Chat**: Modern chat interface with typing indicators
@@ -14,18 +14,15 @@ An AI-powered chatbot that helps users with questions about Huawei certification
 
 - **Frontend**: Next.js 15, React 19, TypeScript
 - **Styling**: Tailwind CSS
-- **AI**: OpenAI GPT-3.5-turbo
-- **Vector Database**: Pinecone
+- **AI**: groq
 - **Icons**: Lucide React
 
 ## Prerequisites
 
 Before running this application, you need:
 
-1. **OpenAI API Key**: Get one from [OpenAI Platform](https://platform.openai.com/)
-2. **Pinecone Account**: Sign up at [Pinecone](https://www.pinecone.io/)
-3. **Pinecone Index**: Create an index with dimension 1536 (for OpenAI embeddings)
-4. **Knowledge Files**: Your Huawei certification materials in markdown format
+1. **Grok API Key**: Get one from [OpenAI Platform](https://platform.openai.com/)
+2. **Knowledge Files**: Your Huawei certification materials in .txt format
 
 ## Setup Instructions
 
@@ -34,13 +31,9 @@ Before running this application, you need:
 Create a `.env.local` file in the root directory with the following variables:
 
 ```env
-# OpenAI Configuration
-OPENAI_API_KEY=your_openai_api_key_here
-
-# Pinecone Configuration
-PINECONE_API_KEY=your_pinecone_api_key_here
-PINECONE_INDEX_NAME=your_pinecone_index_name_here
-
+# Groq Configuration
+Groq_API_KEY=your_openai_api_key_here
+AI_Provider="groq"
 # Optional
 NEXT_PUBLIC_APP_NAME=Huawei Certification Assistant
 ```
@@ -59,13 +52,11 @@ npm install
    npm run dev
    ```
 
-2. Visit the setup page: `http://localhost:3000/setup`
+2. Visit the setup page: `http://localhost:3000/`
 
-3. Click "Initialize Knowledge Base" to load your Huawei certification materials into Pinecone
+### 3. Start Chatting
 
-### 4. Start Chatting
-
-Once initialization is complete, visit `http://localhost:3000` to start using the chatbot!
+Once initialization is complete, visit `http://localhost:3000/test-all` to start using the chatbot!
 
 ## Knowledge Base Structure
 
@@ -89,9 +80,7 @@ knowledge/
 
 ## API Endpoints
 
-- `GET /api/knowledge` - Returns all knowledge chunks
 - `POST /api/chat` - Handles chat messages and returns AI responses
-- `POST /api/initialize` - Initializes the knowledge base in Pinecone
 
 ## Usage
 
@@ -114,24 +103,16 @@ knowledge/
 1. **"No knowledge chunks found"**
 
    - Check that your markdown files are in the `knowledge/` directory
-   - Ensure files have `.md` extension
+   - Ensure files have `.txt` extension
 
-2. **"Failed to initialize knowledge base"**
-
-   - Verify your environment variables are set correctly
-   - Check that your Pinecone index exists and is accessible
-   - Ensure your OpenAI API key is valid
-
-3. **"Failed to process your request"**
-   - Check that the knowledge base has been initialized
+2. **"Failed to process your request"**
    - Verify your API keys are working
 
 ### Debug Steps
 
 1. Check the browser console for errors
 2. Verify your `.env.local` file has all required variables
-3. Ensure your Pinecone index has the correct dimension (1536)
-4. Test your API keys independently
+3. Test your API keys independently
 
 ## Development
 
