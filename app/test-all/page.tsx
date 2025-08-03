@@ -5,7 +5,7 @@ import { Search, Database } from "lucide-react";
 import Image from "next/image";
 import { SearchResult } from "@/lib/simpleSearch";
 
-type ChatAPI = "original" | "simple" | "no-ai";
+type ChatAPI = "original";
 
 interface TestResult {
   api: ChatAPI;
@@ -72,7 +72,6 @@ export default function TestAllPage() {
   const testAll = async () => {
     if (!query.trim()) return;
     setResults([]);
-
     await testAPI("original");
   };
 
@@ -86,45 +85,45 @@ export default function TestAllPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gray-50 px-4 sm:px-6 md:px-8 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <div>
-            <Image
-              src="/logo2.jpg"
-              alt="huwawei logo"
-              width={90}
-              height={90}
-              className=" rounded-full mx-auto "
-            ></Image>
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Huawei assistant
+          <Image
+            src="/logo2.jpg"
+            alt="Huawei logo"
+            width={100}
+            height={100}
+            className="rounded-full mx-auto w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28"
+          />
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mt-4">
+            Huawei Assistant
           </h1>
-          <p className="text-gray-600">Test the new huawei chat bot now!</p>
+          <p className="text-gray-600 mt-2 text-sm sm:text-base">
+            Test the new Huawei chatbot now!
+          </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <div className="flex space-x-4 mb-4">
+        <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-8">
+          <div className="flex flex-col sm:flex-row gap-4 mb-4">
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Ask about Huawei certifications..."
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onKeyPress={(e) => e.key === "Enter" && testAll()}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              onKeyDown={(e) => e.key === "Enter" && testAll()}
             />
             <button
               onClick={testAll}
               disabled={isLoading || !query.trim()}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+              className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
             >
               <Search className="w-4 h-4" />
               <span>{isLoading ? "Testing..." : "Test All APIs"}</span>
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {(["original"] as ChatAPI[]).map((api) => {
               const info = getAPIInfo();
               return (
@@ -132,11 +131,11 @@ export default function TestAllPage() {
                   key={api}
                   onClick={() => testAPI(api)}
                   disabled={isLoading || !query.trim()}
-                  className={`p-4 rounded-lg border-2 border-gray-200 hover:border-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
+                  className="p-4 rounded-lg border-2 border-gray-200 hover:border-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="flex items-center space-x-2 mb-2">
                     <div
-                      className={`w-8 h-8 ${info.color} rounded-full flex items-center justify-center`}
+                      className={`w-8 h-8 ${info.color} rounded-full flex items-center justify-center text-white`}
                     >
                       {info.icon}
                     </div>
@@ -156,10 +155,13 @@ export default function TestAllPage() {
             {results.map((result, index) => {
               const info = getAPIInfo();
               return (
-                <div key={index} className="bg-white rounded-lg shadow-lg p-6">
-                  <div className="flex items-center space-x-2 mb-4">
+                <div
+                  key={index}
+                  className="bg-white rounded-lg shadow-lg p-4 sm:p-6"
+                >
+                  <div className="flex items-center gap-3 mb-4">
                     <div
-                      className={`w-8 h-8 ${info.color} rounded-full flex items-center justify-center`}
+                      className={`w-8 h-8 ${info.color} rounded-full flex items-center justify-center text-white`}
                     >
                       {info.icon}
                     </div>
@@ -172,28 +174,26 @@ export default function TestAllPage() {
                   </div>
 
                   {result.error ? (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-sm">
                       <p className="text-red-800 font-medium">Error:</p>
                       <p className="text-red-700">{result.error}</p>
                     </div>
                   ) : (
-                    <div className="bg-gray-50 rounded-lg p-4">
-                      <div className="whitespace-pre-wrap text-gray-800">
-                        {result.response}
-                      </div>
+                    <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-800 whitespace-pre-wrap">
+                      {result.response}
                     </div>
                   )}
 
                   {result.searchResults && result.searchResults.length > 0 && (
-                    <div className="mt-4">
-                      <p className="text-sm font-medium text-gray-700 mb-2">
+                    <div className="mt-4 text-sm">
+                      <p className="font-medium text-gray-700 mb-2">
                         Search Results:
                       </p>
                       <div className="space-y-2">
                         {result.searchResults.map((sr, idx) => (
                           <div
                             key={idx}
-                            className="text-sm bg-blue-50 p-2 rounded"
+                            className="bg-blue-50 p-2 rounded text-gray-700"
                           >
                             <span className="font-medium">{sr.title}</span> (
                             {sr.category}) - Score: {sr.relevance}
@@ -208,25 +208,20 @@ export default function TestAllPage() {
           </div>
         )}
 
-        <div className="mt-8 text-sm text-gray-500">
+        <div className="mt-10 text-sm text-gray-500">
           <p className="font-medium mb-2">Test Queries:</p>
-          <ul className="space-y-1">
-            <li>• &rdquo;What is HCIA 5G?&ldquo;</li>
-            <li>• &rdquo;Tell me about datacom certification&ldquo;</li>
-            <li>• &rdquo;Cloud computing solutions&ldquo;</li>
-            <li>• &rdquo;Security requirements&ldquo;</li>
-            <li>• &rdquo;HCIE prerequisites&ldquo;</li>
+          <ul className="space-y-1 pl-4 list-disc">
+            <li>What is HCIA 5G?</li>
+            <li>Tell me about datacom certification</li>
+            <li>Cloud computing solutions</li>
+            <li>Security requirements</li>
+            <li>HCIE prerequisites</li>
           </ul>
         </div>
-        <footer
-          style={{
-            fontSize: "14px",
-            color: "#888",
-            textAlign: "center",
-            padding: "20px 0",
-          }}
-        >
-          All rights reserved to Fahad Al-Khalidy
+
+        <footer className="mt-10 text-xs text-gray-400 text-center">
+          &copy; {new Date().getFullYear()} Fahad Al-Khalidy. All rights
+          reserved.
         </footer>
       </div>
     </div>
